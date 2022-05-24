@@ -1,7 +1,11 @@
 if (TARGET tinyusb_device)
-    add_executable(main
-		main.cpp
-            )
+    set(SOURCE_EXE main.cpp wifiSingleton.cpp)
+
+    add_executable(main ${SOURCE_EXE})
+
+#    add_executable(main
+#		main.cpp
+#            )
 
     # Include hpp files
     include_directories(${CMAKE_CURRENT_SOURCE_DIR})
