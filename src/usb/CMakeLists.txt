@@ -1,17 +1,11 @@
 if (TARGET tinyusb_device)
-##############################################
-    add_library(WifiSingleton wifiSingleton.cpp)
 
-    # Include hpp files
-    target_include_directories(WifiSingleton PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+    include_directories(${PROJECT_SOURCE_DIR})
 
-    add_executable(main main.cpp)
+    add_executable(main main.cpp wifiSingleton.cpp)
 
-    # pull in common dependencies
     target_link_libraries(main pico_stdlib)
-    target_link_libraries(main WifiSingleton)
 
-################################
     # enable usb output, disable uart output
     pico_enable_stdio_usb(main 1)
     pico_enable_stdio_uart(main 0)
