@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
 
-#include "wifiSingleton.hpp"
+#include "include/wifiSingleton.hpp"
 
 int main() {
     stdio_init_all();
@@ -15,12 +15,13 @@ int main() {
     printf("Hello, world!\n");
     
     //Get a reference to the wifiSingleton
-    wifiSingleton& wifiInst = wifiSingleton.getInstance();
+    //wifiSingleton& wifiInst = wifiSingleton::getInstance();
+    wifiSingleton::getInstance();
 
     //Loop until successful wifi connection is made
-    do{
-        sleep_ms(1000);
-    }while ( !wifiInst.connect() );
+//    do{
+//        sleep_ms(1000);
+//    }while ( !wifiInst.connect() );
 
 
     //Main control loop
