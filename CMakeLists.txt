@@ -20,8 +20,8 @@ include(example_auto_set_url.cmake)
 # Add blink example
 #add_subdirectory(blink)
 
-# Add hello world example
-add_subdirectory(hello_world)
+# Add src
+add_subdirectory(src)
 
 add_compile_options(-Wall
         -Wno-format          # int != int32_t as far as the compiler is concerned because gcc has int32_t as long int
