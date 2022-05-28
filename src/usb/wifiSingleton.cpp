@@ -20,7 +20,7 @@ wifiSingleton::~wifiSingleton()
  * Public Static Functions
  * **********************/
 
-static wifiSingleton& getInstance()
+wifiSingleton& wifiSingleton::getInstance()
 {
     static wifiSingleton instance;
     return instance;

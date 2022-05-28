@@ -14,8 +14,7 @@ int main() {
     printf("Hello, world!\n");
     
     //Get a reference to the wifiSingleton
-    //wifiSingleton& wifiInst = wifiSingleton::getInstance();
-    wifiSingleton wifiInst;
+    wifiSingleton& wifiInst = wifiSingleton::getInstance();
 
     //Loop until successful wifi connection is made
     do{
