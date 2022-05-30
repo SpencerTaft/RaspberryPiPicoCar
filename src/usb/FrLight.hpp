@@ -1,7 +1,7 @@
 
 #pragma once
 
-class Light
+class FrLight : public Light
 {
     public:
         /* ***********************
@@ -9,21 +9,14 @@ class Light
          * **********************/
 
         //Constructor declaration
-        Light();
+        FrLight();
         //Destructor declaration
-        ~Light();
+        ~FrLight();
 
         /* ***********************
          * Public Member Functions
          * **********************/
 
-        bool setIOPin();
-
-        //turn on the GPIO pin
-        bool turnOn();
-        //turn off the GPIO pin
-        bool turnOff();
-        //turn on light at indicator interval
-        void indicate();
+        bool setFlasher();
 
 };

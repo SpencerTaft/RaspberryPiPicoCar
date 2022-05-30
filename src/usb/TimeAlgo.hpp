@@ -1,7 +1,7 @@
 
 #pragma once
 
-class frontLight
+class TimeAlgo
 {
     public:
         /* ***********************
@@ -9,14 +9,16 @@ class frontLight
          * **********************/
 
         //Constructor declaration
-        frontLight();
+        TimeAlgo();
         //Destructor declaration
-        ~frontLight();
+        ~TimeAlgo();
 
         /* ***********************
          * Public Member Functions
          * **********************/
 
-        bool setState();
+        bool SetRamp();
+        bool UpdateRamp();
+        
 
 };
