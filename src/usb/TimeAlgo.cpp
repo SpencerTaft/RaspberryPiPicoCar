@@ -18,12 +18,21 @@ TimeAlgo::~TimeAlgo()
  * Public Member Functions
  * **********************/
 
-bool TimeAlgo::SetRamp()
+void TimeAlgo::SetRamp(int startPercent, int endPercent)
 {
-    return true;
+
 }
 
-bool TimeAlgo::UpdateRamp()
+int TimeAlgo::UpdateRamp()
 {
-    return true;
+    return TimeAlgo::currentPercent;
+}
+
+bool TimeAlgo::IsEvent()
+{
+    bool isEvent = false;
+
+    isEvent = ((endPercent == currentPercent) && (startPercent != endPercent));
+
+    return isEvent;
 }
