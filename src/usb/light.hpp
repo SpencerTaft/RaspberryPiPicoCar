@@ -1,3 +1,4 @@
+#include "TimeAlgo.hpp"
 
 #pragma once
 
@@ -17,7 +18,7 @@ class Light : public TimeAlgo
          * Types and Enums
          * **********************/
 
-        enum eLightState
+        typedef enum eLightState
         {
             eLSOff = 0,
             eLSOn,
@@ -25,17 +26,12 @@ class Light : public TimeAlgo
             eLSIndicator,
             eLSConfig,
             eLSError
-        }
+        };
 
         /* ***********************
          * Public Member Functions
          * **********************/
 
-        bool setIOPin();
-
         //turn on the GPIO pin
-        virtual bool setState(eLightState newState);
-        //turn on light at indicator interval
-        void indicate();
-
+        virtual void setState(eLightState newState);
 };

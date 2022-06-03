@@ -19,6 +19,6 @@ class RLight : public Light
 
         bool setFlasher();
 
-        bool setState(eLightState newState);
+        void setState(eLightState newState);
 
 };
