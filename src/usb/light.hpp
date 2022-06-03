@@ -1,7 +1,7 @@
 
 #pragma once
 
-class Light
+class Light : public TimeAlgo
 {
     public:
         /* ***********************
@@ -14,15 +14,27 @@ class Light
         ~Light();
 
         /* ***********************
+         * Types and Enums
+         * **********************/
+
+        enum eLightState
+        {
+            eLSOff = 0,
+            eLSOn,
+            eLSFlasher,
+            eLSIndicator,
+            eLSConfig,
+            eLSError
+        }
+
+        /* ***********************
          * Public Member Functions
          * **********************/
 
         bool setIOPin();
 
         //turn on the GPIO pin
-        bool turnOn();
-        //turn off the GPIO pin
-        bool turnOff();
+        virtual bool setState(eLightState newState);
         //turn on light at indicator interval
         void indicate();
 

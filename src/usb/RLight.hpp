@@ -1,7 +1,7 @@
 
 #pragma once
 
-class FrLight : public Light
+class RLight : public Light
 {
     public:
         /* ***********************
@@ -9,9 +9,9 @@ class FrLight : public Light
          * **********************/
 
         //Constructor declaration
-        FrLight();
+        RLight();
         //Destructor declaration
-        ~FrLight();
+        ~RLight();
 
         /* ***********************
          * Public Member Functions
