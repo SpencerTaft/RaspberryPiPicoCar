@@ -32,6 +32,18 @@ class Light : public TimeAlgo
          * Public Member Functions
          * **********************/
 
-        //turn on the GPIO pin
+        //Overriden by child classes to allow different states
         virtual void setState(eLightState newState);
+        //overriden by child classes to update timeAlgo
+        virtual void lightRuntime();
+
+        //Called from any child class to set gpioPin
+        void assignGPIOPin();
+
+        //Called from any child class to set the assigned gpioPin to a percent of 
+        void setGPIOPinVoltage(int percent);
+        
+    private:
+        int gpioPin;
+        int maxVoltage;
 };

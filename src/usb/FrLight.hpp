@@ -17,8 +17,8 @@ class FrLight : public Light
          * Public Member Functions
          * **********************/
 
-        bool setFlasher();
-
         void setState(eLightState newState);
+
+        void lightRuntime();
 
 };
