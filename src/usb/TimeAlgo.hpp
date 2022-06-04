@@ -18,16 +18,16 @@ class TimeAlgo
          * **********************/
 
         //SetRamp starts a ramp algorithm with a start percent and end percent
-        void SetRamp(int, int);
+        void SetRamp(int newStartPercent, int newEndPercent, unsigned int newDuration);
         //UpdateRamp is called every scan and returns the current percent completion
-        int UpdateRamp();
-        //IsEvent is called to check if a ramp or timer is complete
-        bool IsEvent();
-        
+        int UpdateRamp(unsigned int timestamp);
+        bool IsRampEnabled();
+
     private:
-        bool eventFlag; //todo remove?
         int currentPercent;
         int startPercent;
         int endPercent;
-
+        unsigned int duration;
+        unsigned int startTS;
+        bool revRamp;
 };

@@ -16,6 +16,12 @@ int main() {
     //Get a reference to the wifiSingleton
     wifiSingleton& wifiInst = wifiSingleton::getInstance();
 
+    //test
+    //>>>>>>>>>>>>>
+    time_us_32(); //returns u32 in ms
+    //<<<<<<<<
+
+
     //Loop until successful wifi connection is made
     do{
         sleep_ms(1000);

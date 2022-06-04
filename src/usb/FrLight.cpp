@@ -22,35 +22,19 @@ void FrLight::SetState(eLightState newState)
 {
     switch(newState)
     {
-        case eLSOff:
-            SetRamp(0,0); //disables the ramp in TimeAlgo
-            SetGPIOPinVoltage(0); //turn off voltage
-            break;
-
-        case eLSOn:
-            SetRamp(0,0); //disables the ramp in TimeAlgo
-            SetGPIOPinVoltage(100); //turn on voltage
-            break;
-
         case eLSFlasher:
-            SetRamp(0,100); //todo need duration
+            SetRamp(0,100, 200); //200 = 0.2 seconds
             SetGPIOPinVoltage(0); //turn off voltage
             break;
 
+        case eLSOff:
+        case eLSOn:
         case eLSIndicator:
-            SetRamp(0,100); //todo need duration
-            SetGPIOPinVoltage(0); //turn off voltage
-            break;
-
         case eLSConfig:
-            SetRamp(0,100); //todo need duration
-            SetGPIOPinVoltage(0); //turn off voltage
-            break;
-
         case eLSError:
         default:
-            SetRamp(0,100); //todo need duration
-            SetGPIOPinVoltage(0); //turn off voltage
+            //Use SetState() from parent class
+            Light::SetState(newState);
             break;
     }
 }
