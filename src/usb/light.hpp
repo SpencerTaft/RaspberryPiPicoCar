@@ -33,16 +33,16 @@ class Light : public TimeAlgo
          * **********************/
 
         //Overriden by child classes to allow different states
-        virtual void setState(eLightState newState);
+        virtual void SetState(eLightState newState);
         //overriden by child classes to update timeAlgo
-        virtual void lightRuntime();
+        virtual void LightRuntime();
 
         //Called from any child class to set gpioPin
-        void assignGPIOPin();
+        void AssignGPIOPin();
 
         //Called from any child class to set the assigned gpioPin to a percent of 
-        void setGPIOPinVoltage(int percent);
-        
+        void SetGPIOPinVoltage(int percent);
+
     private:
         int gpioPin;
         int maxVoltage;

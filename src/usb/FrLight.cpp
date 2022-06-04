@@ -1,15 +1,15 @@
-#include "Light.hpp"
+#include "FrLight.hpp"
 
 /* ***********************
  * Constructors, Destructors, Operators
  * **********************/
 
-Light::Light()
+FrLight::FrLight()
 {
 
 }
 
-Light::~Light()
+FrLight::~FrLight()
 {
     
 }
@@ -18,7 +18,7 @@ Light::~Light()
  * Public Member Functions
  * **********************/
 
-void Light::SetState(eLightState newState)
+void FrLight::SetState(eLightState newState)
 {
     switch(newState)
     {
@@ -30,6 +30,11 @@ void Light::SetState(eLightState newState)
         case eLSOn:
             SetRamp(0,0); //disables the ramp in TimeAlgo
             SetGPIOPinVoltage(100); //turn on voltage
+            break;
+
+        case eLSFlasher:
+            SetRamp(0,100); //todo need duration
+            SetGPIOPinVoltage(0); //turn off voltage
             break;
 
         case eLSIndicator:

@@ -1,4 +1,4 @@
-
+#include "Light.hpp"
 #pragma once
 
 class RLight : public Light
@@ -17,8 +17,6 @@ class RLight : public Light
          * Public Member Functions
          * **********************/
 
-        bool setFlasher();
-
-        void setState(eLightState newState);
+        void SetState(eLightState newState);
 
 };

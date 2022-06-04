@@ -1,4 +1,4 @@
-
+#include "Light.hpp"
 #pragma once
 
 class FrLight : public Light
@@ -17,8 +17,8 @@ class FrLight : public Light
          * Public Member Functions
          * **********************/
 
-        void setState(eLightState newState);
+        void SetState(eLightState newState);
 
-        void lightRuntime();
+        void LightRuntime();
 
 };

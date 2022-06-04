@@ -1,15 +1,15 @@
-#include "Light.hpp"
+#include "RLight.hpp"
 
 /* ***********************
  * Constructors, Destructors, Operators
  * **********************/
 
-Light::Light()
+RLight::RLight()
 {
 
 }
 
-Light::~Light()
+RLight::~RLight()
 {
     
 }
@@ -18,7 +18,7 @@ Light::~Light()
  * Public Member Functions
  * **********************/
 
-void Light::SetState(eLightState newState)
+void RLight::SetState(eLightState newState)
 {
     switch(newState)
     {
