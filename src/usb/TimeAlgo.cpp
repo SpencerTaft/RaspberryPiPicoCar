@@ -35,6 +35,7 @@ int TimeAlgo::UpdateRamp(unsigned int timestamp)
 {
     unsigned int timeElapsed;
     int timePercent;
+    int voltagePercent;
 
     if (timestamp < startTS)
     {
@@ -52,12 +53,18 @@ int TimeAlgo::UpdateRamp(unsigned int timestamp)
     timePercent /= duration;
 
     //Convert percent of duration complete to output voltage percent
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-//NEXT TIME: start here
-//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    if (revRamp)
+    {
+        voltagePercent = startPercent + ((endPercent - startPercent) * timePercent)/100;
+    }
+    else
+    {
+        voltagePercent = endPercent - ((endPercent - startPercent) * timePercent)/100;
+    }
 
     //Reverses the ramp direction, used to create sawtooth for flashing lights
-    if (endPercent == currentPercent)
+    if (((endPercent == currentPercent) && (!revRamp))
+            || ((startPercent == currentPercent) && revRamp))
     {
         revRamp = ~revRamp;
     }
