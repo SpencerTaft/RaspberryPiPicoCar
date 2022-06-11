@@ -4,13 +4,9 @@ if (TARGET tinyusb_device)
 
     project("RCCarCode")
 
-    include_directories(${PROJECT_SOURCE_DIR})
+    include_directories(${PROJECT_SOURCE_DIR} inc)
 
     add_executable(${PROJECT_NAME} main.cpp wifiSingleton.cpp TimeAlgo.cpp Light.cpp FrLight.cpp RLight.cpp)
-
-    target_include_directories(${PROJECT_NAME} PUBLIC inc)
-
-    target_link_directories(${PROJECT_NAME} PUBLIC inc)
 
     target_link_libraries(${PROJECT_NAME} pico_stdlib)
 
