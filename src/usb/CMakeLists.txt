@@ -8,6 +8,10 @@ if (TARGET tinyusb_device)
 
     add_executable(${PROJECT_NAME} main.cpp wifiSingleton.cpp TimeAlgo.cpp Light.cpp FrLight.cpp RLight.cpp)
 
+    target_include_directories(${PROJECT_NAME} PUBLIC inc)
+
+    target_link_directories(${PROJECT_NAME} PUBLIC inc)
+
     target_link_libraries(${PROJECT_NAME} pico_stdlib)
 
     # enable usb output, disable uart output
