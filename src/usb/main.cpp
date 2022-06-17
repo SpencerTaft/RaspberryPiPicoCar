@@ -34,6 +34,7 @@ void LightStorageInit(std::array<Light, 6> &lightStorage)
 int main() {
     stdio_init_all();
 
+    printf("start of program");
 
     //Allocate and initialize light storage
     std::array<Light, 6> lightStorage;
@@ -44,17 +45,39 @@ int main() {
 
     //Loop until successful wifi connection is made
     do{
-        sleep_ms(1000);
+        sleep_ms(100);
+        unsigned int timeMS = time_us_32();
+
+        //run the light runtimes anyways so that lights are showing config mode
+        for (auto& record : lightStorage)
+        {
+            record.LightRuntime(timeMS);
+        }
     }while ( !wifiInst.connect() );
 
+    //Update light states to off
+    for (auto& record : lightStorage)
+    {
+        record.SetState(Light::eLSOff);
+    }
 
-    //Main control loop
-    //time_us_32(); //returns u32 in ms
+    //Successfully connected.  Run through main control loop
+    while(true) //todo leave control loop upon wifi command or a manual switchoff
+    {
+        //todo Receive commands from wifi
 
+        //todo Set light states according to commands
 
+        //update light runtimes
+        unsigned int timeMS = time_us_32();
 
+        for (auto& record : lightStorage)
+        {
+            record.LightRuntime(timeMS);
+        }
+    }
 
-
+    printf("end of program");
 
     return 0;
 }
