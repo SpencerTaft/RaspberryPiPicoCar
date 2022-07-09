@@ -27,6 +27,8 @@ void TimeAlgo::SetRamp(int newStartPercent, int newEndPercent, unsigned int newD
     currentPercent = startPercent;
     endPercent = newEndPercent;
     duration = newDuration;
+    revRamp = (startPercent > endPercent);
+    blink = false;
 
     startTS = time_us_32();
 }
@@ -62,11 +64,14 @@ int TimeAlgo::UpdateRamp(unsigned int timestamp)
         voltagePercent = endPercent - ((endPercent - startPercent) * timePercent)/100;
     }
 
-    //Reverses the ramp direction, used to create sawtooth for flashing lights
-    if (((endPercent == currentPercent) && (!revRamp))
-            || ((startPercent == currentPercent) && revRamp))
+    if (blink)
     {
-        revRamp = ~revRamp;
+        //Reverses the ramp direction, used to create sawtooth for flashing lights
+        if (((endPercent == currentPercent) && (!revRamp))
+                || ((startPercent == currentPercent) && revRamp))
+        {
+            revRamp = ~revRamp;
+        }
     }
 
     return currentPercent;
@@ -75,4 +80,9 @@ int TimeAlgo::UpdateRamp(unsigned int timestamp)
 bool TimeAlgo::IsRampEnabled()
 {
     return (startPercent != endPercent);
+}
+
+void TimeAlgo::SetBlink(bool newVal)
+{
+    blink = newVal;
 }

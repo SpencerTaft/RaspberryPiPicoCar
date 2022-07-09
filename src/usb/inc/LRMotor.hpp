@@ -32,10 +32,13 @@ class LRMotor : public TimeAlgo
         
         void UpdateState(MotorState newState);
         void SetTurnRate(unsigned int newTurnRate);
-        void LRMotorRuntime(void);
+        void LRMotorRuntime(unsigned int timeMS);
 
 
     private:
         MotorState currentState;
+        unsigned int turnRate;
+        
+        const unsigned int maxTurnAngle = 10; //specific to model car and physical wheel well, in degrees
 
 };

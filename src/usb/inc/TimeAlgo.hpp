@@ -21,6 +21,7 @@ class TimeAlgo
         //UpdateRamp is called every scan and returns the current percent completion
         int UpdateRamp(unsigned int timestamp);
         bool IsRampEnabled();
+        void SetBlink(bool newVal);
 
     private:
         int currentPercent;
@@ -29,4 +30,5 @@ class TimeAlgo
         unsigned int duration;
         unsigned int startTS;
         bool revRamp;
+        bool blink; 
 };

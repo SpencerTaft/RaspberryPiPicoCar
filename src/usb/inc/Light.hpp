@@ -46,4 +46,5 @@ class Light : public TimeAlgo
     private:
         int gpioPin;
         int maxVoltage;
+        eLightState currentState;
 };
