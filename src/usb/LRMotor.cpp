@@ -53,7 +53,7 @@ LRMotor::~LRMotor()
         {
             if (TimeAlgo::IsRampEnabled())
             {
-                
+                voltagePercent = UpdateRamp(timeMS);
             }
     
         }
