@@ -31,14 +31,17 @@ class LRMotor : public TimeAlgo
          * **********************/
         
         void UpdateState(MotorState newState);
-        void SetTurnRate(unsigned int newTurnRate);
         void LRMotorRuntime(unsigned int timeMS);
+        //This function takes the the ramp output + motor state and converts it to a position to set the motor to in degrees
+        void SetMotorPosition (int percent);
 
 
     private:
         MotorState currentState;
-        unsigned int turnRate;
+        int currentPercent;
+        MotorState previousState;
         
         const unsigned int maxTurnAngle = 10; //specific to model car and physical wheel well, in degrees
+        const unsigned int turnRate = 1000; //how fast the wheels ramp from straight to turned, in ms
 
 };

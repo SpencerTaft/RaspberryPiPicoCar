@@ -37,7 +37,6 @@ int TimeAlgo::UpdateRamp(unsigned int timestamp)
 {
     unsigned int timeElapsed;
     int timePercent;
-    int voltagePercent;
 
     if (timestamp < startTS)
     {
@@ -54,14 +53,14 @@ int TimeAlgo::UpdateRamp(unsigned int timestamp)
     timePercent = (duration - timeElapsed)*100;
     timePercent /= duration;
 
-    //Convert percent of duration complete to output voltage percent
+    //Convert percent of duration complete to percent complete along startPercent->endPercent span
     if (revRamp)
     {
-        voltagePercent = startPercent + ((endPercent - startPercent) * timePercent)/100;
+        currentPercent = startPercent + ((endPercent - startPercent) * timePercent)/100;
     }
     else
     {
-        voltagePercent = endPercent - ((endPercent - startPercent) * timePercent)/100;
+        currentPercent = endPercent - ((endPercent - startPercent) * timePercent)/100;
     }
 
     if (blink)

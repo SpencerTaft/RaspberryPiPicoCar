@@ -7,6 +7,7 @@
 Light::Light()
 {
     currentState = eLSOff;
+    TimeAlgo::SetBlink(true); //all lights use blink ramps(sawtooth waves), while motors don't
 }
 
 Light::~Light()
@@ -71,7 +72,16 @@ void Light::AssignGPIOPin(int pinNum)
     gpioPin = pinNum;
 }
 
+void Light::setMaxVoltage(float newVal)
+{
+    maxVoltage = newVal;
+}
+
 void Light::SetGPIOPinVoltage(int percent)
 {
+    float newVoltage;
+    
+    newVoltage = maxVoltage * (percent/100);
 
+    //todo set physical pin voltage using API
 }

@@ -21,6 +21,7 @@ class TimeAlgo
         //UpdateRamp is called every scan and returns the current percent completion
         int UpdateRamp(unsigned int timestamp);
         bool IsRampEnabled();
+        //allow for sawtooth waves
         void SetBlink(bool newVal);
 
     private:
