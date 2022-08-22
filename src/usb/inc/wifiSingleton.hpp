@@ -18,6 +18,16 @@ class wifiSingleton
         void operator=(wifiSingleton const&) = delete;
 
         /* ***********************
+         * Types
+         * **********************/
+
+        typedef struct {
+            
+            bool forwardButton;
+            bool reverseButton;
+        } wifiUserData;
+
+        /* ***********************
          * Public Static Functions
          * **********************/
 

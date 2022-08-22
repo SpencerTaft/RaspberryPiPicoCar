@@ -6,7 +6,7 @@
 
 DriveMotor::DriveMotor()
 {
-    currentState = hold;
+    currentState = stop;
     currentPercent = 0;
     direction = forward;
 }

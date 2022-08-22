@@ -6,7 +6,7 @@ if (TARGET tinyusb_device)
 
     include_directories(${PROJECT_SOURCE_DIR} inc)
 
-    add_executable(${PROJECT_NAME} main.cpp wifiSingleton.cpp TimeAlgo.cpp Light.cpp FrLight.cpp RLight.cpp LRMotor.cpp)
+    add_executable(${PROJECT_NAME} main.cpp wifiSingleton.cpp TimeAlgo.cpp Light.cpp FrLight.cpp RLight.cpp LRMotor.cpp DriveMotor.cpp)
 
     target_link_libraries(${PROJECT_NAME} pico_stdlib)
 

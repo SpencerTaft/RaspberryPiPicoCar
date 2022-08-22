@@ -10,6 +10,7 @@
 #include "wifiSingleton.hpp"
 #include "Light.hpp"
 #include "LRMotor.hpp"
+#include "DriveMotor.hpp"
 
 void LightStorageInit(std::array<Light, 6> &lightStorage);
 
@@ -43,6 +44,7 @@ int main() {
 
     //Create motor objects
     LRMotor lrMotor;
+    DriveMotor driveMotor;
 
     //Get a reference to the wifiSingleton
     wifiSingleton& wifiInst = wifiSingleton::getInstance();
