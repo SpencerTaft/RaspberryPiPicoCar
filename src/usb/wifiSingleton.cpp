@@ -8,12 +8,10 @@
 
 wifiSingleton::wifiSingleton()
 {
-    //todo Constructor definition
 }
 
 wifiSingleton::~wifiSingleton()
 {
-    //todo Destructor definition
 }
 
 /* ***********************
@@ -39,5 +37,14 @@ bool wifiSingleton::connect()
 //Receive control data from web controller
 void wifiSingleton::receiveData(WifiUserCommands *userCommands)
 {
+    //todo use wifi to receive data
     userCommands->lightStates[0] = Light::eLSOn;
+    userCommands->lightStates[1] = Light::eLSOn;
+    userCommands->lightStates[2] = Light::eLSOn;
+    userCommands->lightStates[3] = Light::eLSOn;
+    userCommands->lightStates[4] = Light::eLSOn;
+    userCommands->lightStates[5] = Light::eLSOn;
+    userCommands->lrMotorState = LRMotor::driveLeft;
+    userCommands->forwardButton = true;
+    userCommands->reverseButton = false;
 }

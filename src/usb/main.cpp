@@ -73,10 +73,19 @@ int main() {
     //Successfully connected.  Run through main control loop
     while(true) //todo leave control loop upon wifi command or a manual switchoff
     {
-        //todo Receive commands from wifi
+        //Receive commands from wifi
         wifiInst.receiveData(&userCommands);
 
-        //todo Set light states according to commands
+        //Set light states according to commands
+        lightStorage[0].SetState(userCommands.lightStates[0]);
+        lightStorage[1].SetState(userCommands.lightStates[1]);
+        lightStorage[2].SetState(userCommands.lightStates[2]);
+        lightStorage[3].SetState(userCommands.lightStates[3]);
+        lightStorage[4].SetState(userCommands.lightStates[4]);
+        lightStorage[5].SetState(userCommands.lightStates[5]);
+        lrMotor.UpdateState(userCommands.lrMotorState);
+        driveMotor.UserInput(userCommands.forwardButton, userCommands.reverseButton);
+
 
         //update light runtimes
         unsigned int timeMS = time_us_32();

@@ -10,11 +10,17 @@
 TimeAlgo::TimeAlgo()
 {
     //todo Constructor definition
+    currentPercent = 0;
+    startPercent = 0;
+    endPercent = 0;
+    duration = 0;
+    startTS = 0;
+    revRamp = false;
+    blink = false;
 }
 
 TimeAlgo::~TimeAlgo()
 {
-    //todo Destructor definition
 }
 
 /* ***********************
