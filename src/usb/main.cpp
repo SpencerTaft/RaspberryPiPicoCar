@@ -49,6 +49,9 @@ int main() {
     //Get a reference to the wifiSingleton
     wifiSingleton& wifiInst = wifiSingleton::getInstance();
 
+    //instantiate a struct to hold user commands
+    wifiSingleton::WifiUserCommands userCommands;
+
     //Loop until successful wifi connection is made
     do{
         sleep_ms(100);
@@ -71,6 +74,7 @@ int main() {
     while(true) //todo leave control loop upon wifi command or a manual switchoff
     {
         //todo Receive commands from wifi
+        wifiInst.receiveData(&userCommands);
 
         //todo Set light states according to commands
 

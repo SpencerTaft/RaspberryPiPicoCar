@@ -1,6 +1,9 @@
 
 #pragma once
 
+#include "Light.hpp"
+#include "LRMotor.hpp"
+
 class wifiSingleton
 {
     public:
@@ -22,10 +25,11 @@ class wifiSingleton
          * **********************/
 
         typedef struct {
-            
+            Light::eLightState lightStates[6];
+            LRMotor::MotorState lrMotorState;
             bool forwardButton;
             bool reverseButton;
-        } wifiUserData;
+        } WifiUserCommands;
 
         /* ***********************
          * Public Static Functions
@@ -39,6 +43,6 @@ class wifiSingleton
 
         bool connect();
 
-        void receiveData();
+        void receiveData(WifiUserCommands *userCommands);
 
 };

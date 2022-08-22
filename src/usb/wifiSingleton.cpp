@@ -37,7 +37,7 @@ bool wifiSingleton::connect()
 }
 
 //Receive control data from web controller
-void wifiSingleton::receiveData()
+void wifiSingleton::receiveData(WifiUserCommands *userCommands)
 {
-
+    userCommands->lightStates[0] = Light::eLSOn;
 }
