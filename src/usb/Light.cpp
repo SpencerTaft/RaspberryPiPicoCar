@@ -1,4 +1,5 @@
 #include "Light.hpp"
+#include "pico/stdlib.h"
 
 /* ***********************
  * Constructors, Destructors, Operators
@@ -70,6 +71,10 @@ void Light::LightRuntime(unsigned int timeMS)
 void Light::AssignGPIOPin(int pinNum)
 {
     gpioPin = pinNum;
+
+    //Init for GPIO pin
+    gpio_init(pinNum);
+    gpio_set_dir(pinNum, GPIO_OUT);
 }
 
 void Light::setMaxVoltage(float newVal)
@@ -83,5 +88,60 @@ void Light::SetGPIOPinVoltage(int percent)
     
     newVoltage = maxVoltage * (percent/100);
 
-    //todo set physical pin voltage using API
+    //todo set pin voltage, not just a binary value, using ADC
+    if(percent > 0)
+    {
+        gpio_put(gpioPin, true);
+    }
+    else
+    {
+        gpio_put(gpioPin, false);
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

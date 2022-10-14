@@ -7,24 +7,38 @@
 #include <stdio.h>
 #include <array>
 #include "pico/stdlib.h"
+#include "pico/cyw43_arch.h"
 #include "wifiSingleton.hpp"
 #include "Light.hpp"
 #include "LRMotor.hpp"
 #include "DriveMotor.hpp"
 
+/****Definitions****/
+
+/*Pinout definitions*/
+const int FLheadlightPin = 16;
+const int FRheadlightPin = 15;
+const int FLindicatorPin = 17;
+const int FRindicatorPin = 14;
+const int RLlightPin = 29;
+const int RRlightPin = 9;
+
+
+/****Function Declarations****/
+
 void LightStorageInit(std::array<Light, 6> &lightStorage);
 
-
+/****Function Definitions****/
 
 void LightStorageInit(std::array<Light, 6> &lightStorage)
 {
     //Assign GPIO pins
-    lightStorage[0].AssignGPIOPin(0); //front left headlight
-    lightStorage[1].AssignGPIOPin(0); //front right headlight
-    lightStorage[2].AssignGPIOPin(0); //front left indicator
-    lightStorage[3].AssignGPIOPin(0); //front right indicator
-    lightStorage[4].AssignGPIOPin(0); //rear left light
-    lightStorage[5].AssignGPIOPin(0); //rear right light
+    lightStorage[0].AssignGPIOPin(FLheadlightPin); //front left headlight
+    lightStorage[1].AssignGPIOPin(FRheadlightPin); //front right headlight
+    lightStorage[2].AssignGPIOPin(FLindicatorPin); //front left indicator
+    lightStorage[3].AssignGPIOPin(FRindicatorPin); //front right indicator
+    lightStorage[4].AssignGPIOPin(RLlightPin); //rear left light
+    lightStorage[5].AssignGPIOPin(RRlightPin); //rear right light
 
     //Set all voltages to zero initially
     for (auto& record : lightStorage)
@@ -33,8 +47,22 @@ void LightStorageInit(std::array<Light, 6> &lightStorage)
     }
 }
 
-int main() {
+int main() {    
+    //Init for chosen serial port
     stdio_init_all();
+
+    //Init for Wifi chip onboard.  This includes the LED but not GPIO
+    if (cyw43_arch_init()) {
+        printf("WiFi init failed");
+        return -1;
+    }
+
+/*    while (true) {
+        cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
+        sleep_ms(700);
+        cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
+        sleep_ms(700);
+    }*/
 
     printf("start of program");
 
@@ -52,8 +80,13 @@ int main() {
     //instantiate a struct to hold user commands
     wifiSingleton::WifiUserCommands userCommands;
 
+    //create boolean for onboard LED state, for troubleshooting
+    bool LEDstate = false;
+
     //Loop until successful wifi connection is made
     do{
+        LEDstate = !LEDstate;
+        cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, LEDstate);
         sleep_ms(100);
         unsigned int timeMS = time_us_32();
 
@@ -70,9 +103,13 @@ int main() {
         record.SetState(Light::eLSOff);
     }
 
+    cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
+
     //Successfully connected.  Run through main control loop
     while(true) //todo leave control loop upon wifi command or a manual switchoff
     {
+        printf("hello world!");
+
         //Receive commands from wifi
         wifiInst.receiveData(&userCommands);
 
@@ -94,6 +131,7 @@ int main() {
         {
             record.LightRuntime(timeMS);
         }
+        sleep_ms(1000);
     }
 
     printf("end of program");

@@ -38,12 +38,12 @@ bool wifiSingleton::connect()
 void wifiSingleton::receiveData(WifiUserCommands *userCommands)
 {
     //todo use wifi to receive data
-    userCommands->lightStates[0] = Light::eLSOn;
-    userCommands->lightStates[1] = Light::eLSOn;
-    userCommands->lightStates[2] = Light::eLSOn;
-    userCommands->lightStates[3] = Light::eLSOn;
-    userCommands->lightStates[4] = Light::eLSOn;
-    userCommands->lightStates[5] = Light::eLSOn;
+    userCommands->lightStates[0] = Light::eLSOn; //front left headlight
+    userCommands->lightStates[1] = Light::eLSOn; //front right headlight
+    userCommands->lightStates[2] = Light::eLSOn; //front left indicator
+    userCommands->lightStates[3] = Light::eLSOn; //front right indicator
+    userCommands->lightStates[4] = Light::eLSOn; //rear left light
+    userCommands->lightStates[5] = Light::eLSOn; //rear right light
     userCommands->lrMotorState = LRMotor::driveLeft;
     userCommands->forwardButton = true;
     userCommands->reverseButton = false;

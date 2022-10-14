@@ -7,6 +7,22 @@ then close the window
 
 in dev_env environment visual studio code developer console:
 
-cd C:\Dev\PICO\dev_env\helloWorld\build
+cd C:\Dev\picow\examples\pico-examples\build
+cmake -G "NMake Makefiles" ..
+nmake
+
+cd C:\Dev\picow\examples\pico-examples\build
+cmake -G "NMake Makefiles" ..
+nmake
+
+cd C:\Dev\picow\examples\pico-examples\build
+cmake -G "NMake Makefiles" ..
+nmake
+
+cd C:\Dev\picow\examples\pico-examples\build
+cmake -G "NMake Makefiles" ..
+nmake
+
+cd C:\Dev\picow\examples\pico-examples\build
 cmake -G "NMake Makefiles" ..
 nmake
