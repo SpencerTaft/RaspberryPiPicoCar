@@ -87,14 +87,15 @@ int main() {
     do{
         LEDstate = !LEDstate;
         cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, LEDstate);
-        sleep_ms(100);
-        unsigned int timeMS = time_us_32();
+        unsigned int timeUS = time_us_32();
 
         //run the light runtimes anyways so that lights are showing config mode
         for (auto& record : lightStorage)
         {
-            record.LightRuntime(timeMS);
+            record.LightRuntime(timeUS);
         }
+        sleep_ms(200);
+
     }while ( !wifiInst.connect() );
 
     //Update light states to off
@@ -123,11 +124,11 @@ int main() {
 
 
         //update light runtimes
-        unsigned int timeMS = time_us_32();
+        unsigned int timeUS = time_us_32();
 
         for (auto& record : lightStorage)
         {
-            record.LightRuntime(timeMS);
+            record.LightRuntime(timeUS);
         }
         sleep_ms(200);
     }

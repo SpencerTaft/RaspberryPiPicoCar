@@ -66,7 +66,6 @@ void Light::LightRuntime(unsigned int timeMS)
     {
         //Ramp related code, only run if in appropriate light state
         voltagePercent = UpdateRamp(timeMS);
-        printf("Current percent: %d", voltagePercent);
         SetGPIOPinVoltage(voltagePercent);
     }
 
@@ -89,19 +88,21 @@ void Light::setMaxVoltage(float newVal)
 void Light::SetGPIOPinVoltage(int percent)
 {
     float newVoltage;
-    
-    newVoltage = maxVoltage * (percent/100);
 
-    //todo set pin voltage, not just a binary value, using ADC
-    if(percent > 0)
+    if (percent == 100)
     {
         gpio_put(gpioPin, true);
     }
-    else
+    else if (percent == 0)
     {
         gpio_put(gpioPin, false);
     }
+    else
+    {
+        newVoltage = maxVoltage * (percent/100);
 
+        //TODO PWM
+    }
 }
 
 

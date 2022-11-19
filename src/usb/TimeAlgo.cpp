@@ -35,7 +35,6 @@ void TimeAlgo::SetRamp(int newStartPercent, int newEndPercent, unsigned int newD
     endPercent = newEndPercent;
     duration = newDuration;
     revRamp = (startPercent > endPercent);
-    blink = false;
 
     startTS = time_us_32();
 }
@@ -49,7 +48,7 @@ int TimeAlgo::UpdateRamp(unsigned int timestamp)
     {
         //time rolled over, elapsed is startTS to rollover plus the current timestamp
         timeElapsed = timestamp + (UINT_MAX - startTS);
-        printf("rollover\n");
+        printf("rollover //////////////////////////////////////////////////////////////////////////////////// \n");
     }
     else
     {
@@ -57,31 +56,32 @@ int TimeAlgo::UpdateRamp(unsigned int timestamp)
     }
 
     //First multiply numerator by 100% to prevent truncation in integer division
-//    timePercent = (duration - timeElapsed)*100;
     timePercent = timeElapsed*100;
     timePercent /= duration;
 
     //Convert percent of duration complete to percent complete along startPercent->endPercent span
     if (revRamp)
     {
-        currentPercent = startPercent + ((endPercent - startPercent) * timePercent)/100;
+        currentPercent = endPercent - ((endPercent - startPercent) * timePercent)/100;
     }
     else
     {
-        currentPercent = endPercent - ((endPercent - startPercent) * timePercent)/100;
+        currentPercent = startPercent + ((endPercent - startPercent) * timePercent)/100;
     }
 
-    printf("/////////////////////////////////////\n");
-    printf("startTime: %d, timeStamp: %d, elapsed %d timepercent %d currentpercent %d\n", startTS, timestamp, timeElapsed, timePercent, currentPercent);
+    printf("timepercent %d currentPercent %d revRamp %d blink? %d \n", timePercent, currentPercent, revRamp, blink);
     
 
     if (blink)
     {
         //Reverses the ramp direction, used to create sawtooth for flashing lights
-        if (((endPercent == currentPercent) && (!revRamp))
-                || ((startPercent == currentPercent) && revRamp))
+        //Use time percent which goes from 0 to 100%, rather than currentPercent which goes from newStartPercent to newEndPercent
+        
+        if ((currentPercent <= startPercent) || (currentPercent >= endPercent))
+        //if (((timePercent >= 100) && (!revRamp))
+        //        || ((timePercent <= 0) && revRamp))
         {
-            printf("REVERSE\n");
+            printf("REVERSE######################################################################## \n");
             revRamp = !revRamp;
             startTS = timestamp;
         }
