@@ -8,7 +8,7 @@ if (TARGET tinyusb_device)
 
     add_executable(${PROJECT_NAME} main.cpp wifiSingleton.cpp TimeAlgo.cpp Light.cpp FrLight.cpp RLight.cpp LRMotor.cpp DriveMotor.cpp)
 
-    target_link_libraries(${PROJECT_NAME} pico_stdlib pico_cyw43_arch_none)
+    target_link_libraries(${PROJECT_NAME} pico_stdlib pico_cyw43_arch_none hardware_pwm)
 
     # enable usb output, disable uart output
     pico_enable_stdio_usb(${PROJECT_NAME} 1)

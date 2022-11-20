@@ -10,7 +10,6 @@
 
 TimeAlgo::TimeAlgo()
 {
-    //todo Constructor definition
     currentPercent = 0;
     startPercent = 0;
     endPercent = 0;
@@ -48,7 +47,6 @@ int TimeAlgo::UpdateRamp(unsigned int timestamp)
     {
         //time rolled over, elapsed is startTS to rollover plus the current timestamp
         timeElapsed = timestamp + (UINT_MAX - startTS);
-        printf("rollover //////////////////////////////////////////////////////////////////////////////////// \n");
     }
     else
     {
@@ -69,19 +67,13 @@ int TimeAlgo::UpdateRamp(unsigned int timestamp)
         currentPercent = startPercent + ((endPercent - startPercent) * timePercent)/100;
     }
 
-    printf("timepercent %d currentPercent %d revRamp %d blink? %d \n", timePercent, currentPercent, revRamp, blink);
-    
-
     if (blink)
     {
         //Reverses the ramp direction, used to create sawtooth for flashing lights
         //Use time percent which goes from 0 to 100%, rather than currentPercent which goes from newStartPercent to newEndPercent
         
         if ((currentPercent <= startPercent) || (currentPercent >= endPercent))
-        //if (((timePercent >= 100) && (!revRamp))
-        //        || ((timePercent <= 0) && revRamp))
         {
-            printf("REVERSE######################################################################## \n");
             revRamp = !revRamp;
             startTS = timestamp;
         }

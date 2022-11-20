@@ -1,6 +1,7 @@
 #include "Light.hpp"
 #include <stdio.h>
 #include "pico/stdlib.h"
+#include "hardware/pwm.h"
 
 /* ***********************
  * Constructors, Destructors, Operators
@@ -102,6 +103,19 @@ void Light::SetGPIOPinVoltage(int percent)
         newVoltage = maxVoltage * (percent/100);
 
         //TODO PWM
+        //gpioPin must be a pin that has PWM
+        gpio_set_function(gpioPin, GPIO_FUNC_PWM);
+        // Find out which PWM slice is connected to GPIO pin
+        uint slice_num = pwm_gpio_to_slice_num(0);
+
+        // Set period of 4 cycles (0 to 3 inclusive)
+        pwm_set_wrap(slice_num, 99);
+        // Set channel A output high for one cycle before dropping
+        pwm_set_chan_level(slice_num, PWM_CHAN_A, (percent - 1));
+        // Set initial B output high for three cycles before dropping
+        pwm_set_chan_level(slice_num, PWM_CHAN_B, (percent - 1));
+        // Set the PWM running
+        pwm_set_enabled(slice_num, true);
     }
 }
 
