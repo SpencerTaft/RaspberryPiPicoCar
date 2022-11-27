@@ -105,8 +105,13 @@ void Light::SetGPIOPinVoltage(int percent)
         //TODO PWM
         //gpioPin must be a pin that has PWM
         gpio_set_function(gpioPin, GPIO_FUNC_PWM);
+
         // Find out which PWM slice is connected to GPIO pin
         uint slice_num = pwm_gpio_to_slice_num(0);
+
+//>>>>>>>>>>>>>>>>>>>>>.
+//        pwm_set_clkdiv_int_frac (slice_num,  38,3); //makes it 50Hz
+//<<<<<<<<<<<<<<<<<<<<
 
         // Set period of 4 cycles (0 to 3 inclusive)
         pwm_set_wrap(slice_num, 99);
