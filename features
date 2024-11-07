@@ -1,0 +1,49 @@
+:::::Processing:::::
+- Dual-core cortex M0+ at up to 133MH
+- 264kB multi-bank high performance SRAM
+- High performance full-crossbar bus fabric (allows cpus, gpus, memory to communicate easily)
+
+
+:::::Memory:::::
+- 2MB flash memory
+
+
+:::::Connection:::::
+- WIFI 802.11n, single band 2.4GHz (600Mbps)
+- WPA3 (connection security)
+- Soft access point, four clients (wireless access point, software based)
+- Bluetooth 5.2
+    > Support for Bluetooth LE Central and Peripheral roles (peripheral devices provides services/data to a primary bluetooth device)
+    > Support for Bluetooth Classic
+
+
+:::::Electric Input/Output:::::
+- 26 multi-function 3.3V GPIO
+    > 23 digital only
+    > 3 ADC (12-bit 500ksps analogue to digital converter (input)
+    > 1.8-3.3V I/O voltage
+- 2 UART (communication, async, single wire protocol)
+- 2 I2C (communication, sync, dual wire protocol (data plus clock))
+- 2 SPI (communication, master-slave, 4 wire: master in slave out, master out slave in, clock, chip select (which slave device to communicate with))
+- 16 PWM channels (how DAC is achieved)
+- 2 programmable I/O (PIO) blocks, 8 state machines in total (logic that can run independently of CPU)
+    > Flexible, user-programmable high-speed I/O
+    > Can emulate interfaces such as SD card and VGA
+    > (2 fifo queues, one for data in and one for data out)
+        > can be used to implement custom communication protocols, control LED's etc.
+        > can handle precise timing
+
+:::::Power:::::
+- power over micro usb
+
+
+
+:::::Hardware:::::
+- 40-pin 21mm×51mm 'DIP' style 1mm thick PCB with 0.1" through-hole pins also with edge castellations
+
+
+:::::Software:::::
+- multicore support, can run two cores at once maximum
+
+
+

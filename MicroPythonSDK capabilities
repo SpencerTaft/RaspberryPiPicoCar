@@ -1,0 +1,51 @@
+:::::LED Control:::::
+on/off
+    >>> from machine import Pin
+    >>> led = Pin("LED", Pin.OUT)
+    >>> led.value(1)
+
+:::::Onboard flash:::::
+access using littlefs2, 1600kB
+
+:::::Timers/Ticks:::::
+utime or machine.Timer
+can set timers, with a callback and frequency
+
+:::::Machine modules:::::
+machine (library specifically for the RP Pico Wifi)
+    machine.Pin
+    machine.Timer, ADC, I2C, etc.
+
+:::::ADC:::::
+accessible from 3 GPIO pins, despite having 5 channels
+    fourth channel is system voltage
+    fifth channel is temperature sensor
+
+:::::Interrupts:::::
+falling edge example    
+    from machine import Pin
+    p2 = Pin(2, Pin.IN, Pin.PULL_UP)
+    p2.irq(lambda pin: print("IRQ with flags:", pin.irq().flags()), Pin.IRQ_FALLING)
+
+:::::Multicore:::::
+RP Pico W has two cores, so a thread can be run on the second core
+    *will build this into architecture
+
+:::::PWM:::::
+use to set variable voltages between on and off
+
+:::::Programmable I/O (PIO):::::
+Creates blocks of logic that can be copied easily to other GPIO pins
+good for simple repeating operations like blinking or running a state machine on a pin
+*these state machines run in parallel to the regular code, can be turned on and off, and run on dedicated hardware (saves on CPU processing)
+can have 4 pins in a state machine
+Interrupts can be raised within PIO, eg. running an interrupt every second to do something
+    IRQ handler is assigned to state machine
+
+
+
+
+
+
+
+
