@@ -1,28 +1,14 @@
-#todo split project into a file per class
-
-#base class for all runtimes within the synchronous core
-class Runnable:
-    def __init__(self):
-        pass #constructor
-    
-    def runtime(self):
-        raise NotImplementedError("Runtime Implementation Missing")
-        #todo this should return the execution status(success, timeout, etc.) and executionTime
-    
-    #Commented methods below are for brainstorming necessary methods:
-    #def returnID():
-        #this can return a string, or a tuple containing object type (overwrite by child class) and ID (eg. {light, frontLeftHeadlight})
-            #ID should match an entry in the database
-        #ID should be strings or tuples of strings, easy to support derived classes
+#from micropython import const
+import runnable
     
 #base light class
-class Light(Runnable):
+class Light(runnable.Runnable):
     def __init__(self):
         pass #constructor
     
     def runtime(self):
         print("Light Runtime")
-        pass
+        return runnable.RuntimeExecutionStatus.SUCCESS
 
     #Comments below are for brainstorming necessary methods:
     #methods in base class should be logic usable by all derived classes: cabin light
@@ -38,7 +24,7 @@ class PWMLight(Light):
     
     def runtime(self):
         print("PWM Light Runtime")
-        pass
+        return runnable.RuntimeExecutionStatus.SUCCESS
     
 class BinaryLight(Light):
     def __init__(self):
@@ -46,34 +32,34 @@ class BinaryLight(Light):
     
     def runtime(self):
         print("Binary Light Runtime")
-        pass
+        return runnable.RuntimeExecutionStatus.SUCCESS
 
 
-class Database(Runnable):
+class Database(runnable.Runnable):
     def __init__(self):
         pass #constructor
     
     def runtime(self):
         print("DB Runtime")
-        pass
+        return runnable.RuntimeExecutionStatus.SUCCESS
     
 #not implemented for V1
-class Motor(Runnable):
+class Motor(runnable.Runnable):
     def __init__(self):
         pass #constructor
     
     def runtime(self):
         print("Motor Runtime")
-        pass
+        return runnable.RuntimeExecutionStatus.SUCCESS
  
-class HTTPConnector(Runnable):
+class HTTPConnector(runnable.Runnable):
     def __init__(self):
         pass #constructor
     
     def runtime(self):
         print("HTTP Connector Runtime")
         #todo check for new information from Async HTTP Server
-        pass
+        return runnable.RuntimeExecutionStatus.SUCCESS
     
 class HTTPServer():
     def __init__(self):
@@ -92,8 +78,12 @@ class RuntimeScheduler():
         
     def runtimeScan(self):
         #runs a single scan of each runtime object added
-        for runnable in self.runnables:
-            runnable.runtime()
+        for runnableInstance in self.runnables:
+            #todo time the run using async core, then timeout.  Long term goal
+            runStatus = runnableInstance.runtime()
+            if (runStatus != runnable.RuntimeExecutionStatus.SUCCESS):
+                break; #temporary solution
+            
         print("runtime scan complete")
 
 
