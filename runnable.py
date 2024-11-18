@@ -1,3 +1,4 @@
+#import ujson
 from micropython import const
 #todo split project into a file per class
 
@@ -9,8 +10,9 @@ class RuntimeExecutionStatus:
 
 #base class for all runtimes within the synchronous core
 class Runnable:
-    def __init__(self):
-        pass #constructor
+    def __init__(self, defaultConfig, ID):
+        self.config = defaultConfig
+        self.ID = ID
     
     def runtime(self):
         raise NotImplementedError("Runtime Implementation Missing")
@@ -22,4 +24,5 @@ class Runnable:
             #ID should be strings or tuples of strings, easy to support derived classes
         raise NotImplementedError("Runtime Implementation Missing")
     
-    #def setConfig(self)
+    def setConfig(self, newConfig):
+        raise NotImplementedError("Runtime Implementation Missing")

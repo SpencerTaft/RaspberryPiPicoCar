@@ -1,39 +1,8 @@
 #from micropython import const
+import ujson
+
 import runnable
-    
-#base light class
-class Light(runnable.Runnable):
-    def __init__(self):
-        pass #constructor
-    
-    def runtime(self):
-        print("Light Runtime")
-        return runnable.RuntimeExecutionStatus.SUCCESS
-
-    #Comments below are for brainstorming necessary methods:
-    #methods in base class should be logic usable by all derived classes: cabin light
-        #might not need derived classes, pending usage of light objects
-    #lights can: turn on/off (state), dim (0-100%) using PWM, flashing (ramp up and down) using PWM
-        #dim and on/off can be combined into a single functionality.  However, the microcontroller has only 8 PWM channels
-    #needs an enum setting if it can support PWM or binary on off
-        #eg. PWMLight, SimpleLight
-
-class PWMLight(Light):
-    def __init__(self):
-        pass #constructor
-    
-    def runtime(self):
-        print("PWM Light Runtime")
-        return runnable.RuntimeExecutionStatus.SUCCESS
-    
-class BinaryLight(Light):
-    def __init__(self):
-        pass #constructor
-    
-    def runtime(self):
-        print("Binary Light Runtime")
-        return runnable.RuntimeExecutionStatus.SUCCESS
-
+import light
 
 class Database(runnable.Runnable):
     def __init__(self):
@@ -89,13 +58,21 @@ class RuntimeScheduler():
 
 
 runtimeScheduler = RuntimeScheduler()
-runtimeScheduler.addRuntime(Light())
-runtimeScheduler.addRuntime(PWMLight())
-runtimeScheduler.addRuntime(BinaryLight())
+#runtimeScheduler.addRuntime(Light())
+
+pwmLightDefaultConfig = {"status": "on", "pin": 28}
+runtimeScheduler.addRuntime(light.PWMLight("LeftHeadLight", pwmLightDefaultConfig))
+
+binaryLightDefaultConfig = {"status": "off", "pin": 28}
+runtimeScheduler.addRuntime(light.BinaryLight(), binaryLightDefaultConfig)
 
 runtimeScheduler.runtimeScan()
 
 print("Successful run")
+
+
+#data = {"name": "Bob", "age": 30}
+#json_string = ujson.dumps(data)
 
 
 
