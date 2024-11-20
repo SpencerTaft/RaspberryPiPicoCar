@@ -1,75 +1,11 @@
 import runnable #local runnable.py
 import light #local light.py
+import scheduler #local scheduler.py
 
-class Database(runnable.Runnable):
-    def __init__(self):
-        pass #constructor
-    
-    def runtime(self):
-        print("DB Runtime")
-        return runnable.RuntimeExecutionStatus.SUCCESS
-    
-#not implemented for V1
-class Motor(runnable.Runnable):
-    def __init__(self):
-        pass #constructor
-    
-    def runtime(self):
-        print("Motor Runtime")
-        return runnable.RuntimeExecutionStatus.SUCCESS
- 
-class HTTPConnector(runnable.Runnable):
-    def __init__(self):
-        pass #constructor
-    
-    def runtime(self):
-        print("HTTP Connector Runtime")
-        #todo check for new information from Async HTTP Server
-        return runnable.RuntimeExecutionStatus.SUCCESS
-    
-class HTTPServer():
-    def __init__(self):
-        pass
-    #async HTTP server that receives GET and POST requests from HTTP clients, and provides data or data requests to HTTP connector
+runtimeScheduler = scheduler.RuntimeScheduler()
 
-class RuntimeScheduler():
-    def __init__(self):
-        #todo convert to singleton
-        self.runnables = []
-    
-    def addRuntime(self, runnable):
-        #todo this should take a runtime type, and possibly return the index in the runtime list that this object is added as
-        #possibly create a map for easy access to runtimes by key
-        self.runnables.append(runnable)
-        
-    def runtimeScan(self):
-        #runs a single scan of each runtime object added
-        for runnableInstance in self.runnables:
-            #todo time the run using async core, then timeout.  Long term goal
-            runStatus = runnableInstance.runtime()
-            if (runStatus != runnable.RuntimeExecutionStatus.SUCCESS):
-                break; #temporary solution
-            
-        print("runtime scan complete")
-
-
-
-runtimeScheduler = RuntimeScheduler()
-#runtimeScheduler.addRuntime(Light())
-
-pwmLightDefaultConfig = {
-    "ID": "Left Headlight",
-    "status": "on",
-    "pin": 28
-}
-runtimeScheduler.addRuntime(light.PWMLight(pwmLightDefaultConfig))
-
-binaryLightDefaultConfig = {
-    "ID": "Right Headlight",
-    "status": "off",
-    "pin": 29
-}
-runtimeScheduler.addRuntime(light.BinaryLight(binaryLightDefaultConfig))
+runtimeScheduler.addRuntime(light.PWMLight({"ID": "Left Headlight", "status": "on", "pin": 28}))
+runtimeScheduler.addRuntime(light.BinaryLight({"ID": "Right Headlight", "status": "off", "pin": 29}))
 
 runtimeScheduler.runtimeScan()
 
