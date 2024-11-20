@@ -1,6 +1,4 @@
-#import ujson
 from micropython import const
-#todo split project into a file per class
 
 class RuntimeExecutionStatus:
     SUCCESS = const(1)

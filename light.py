@@ -25,12 +25,11 @@ class Light(runnable.Runnable):
         #eg. PWMLight, SimpleLight
 
 class PWMLight(Light):
-    def __init__(self, defaultConfig,ID):
+    def __init__(self, defaultConfig):
         self.config = defaultConfig #save config as an attribute for quick compares for new config without parsing JSON
-        self.ID = ID
-        defaultConfigData = ujson.loads(defaultConfig)
-        self.status = defaultConfigData['status'] #on/off
-        self.pin = defaultConfigData['pin']
+        self.ID = defaultConfig['ID']
+        self.status = defaultConfig['status'] #on/off
+        self.pin = defaultConfig['pin']
         #todo more fields for ramp, etc.
         pass #constructor
     
@@ -52,12 +51,11 @@ class PWMLight(Light):
             pass
     
 class BinaryLight(Light):
-    def __init__(self, defaultConfig,ID):
+    def __init__(self, defaultConfig):
         self.config = defaultConfig #save config as an attribute for quick compares for new config without parsing JSON
-        self.ID = ID
-        defaultConfigData = ujson.loads(defaultConfig)
-        self.status = defaultConfigData['status'] #on/off
-        self.pin = defaultConfigData['pin']
+        self.ID = defaultConfig['ID']
+        self.status = defaultConfig['status'] #on/off
+        self.pin = defaultConfig['pin']
         #todo more fields for blink, etc.
         pass #constructor
     

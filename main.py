@@ -1,8 +1,5 @@
-#from micropython import const
-import ujson
-
-import runnable
-import light
+import runnable #local runnable.py
+import light #local light.py
 
 class Database(runnable.Runnable):
     def __init__(self):
@@ -60,19 +57,23 @@ class RuntimeScheduler():
 runtimeScheduler = RuntimeScheduler()
 #runtimeScheduler.addRuntime(Light())
 
-pwmLightDefaultConfig = {"status": "on", "pin": 28}
-runtimeScheduler.addRuntime(light.PWMLight("LeftHeadLight", pwmLightDefaultConfig))
+pwmLightDefaultConfig = {
+    "ID": "Left Headlight",
+    "status": "on",
+    "pin": 28
+}
+runtimeScheduler.addRuntime(light.PWMLight(pwmLightDefaultConfig))
 
-binaryLightDefaultConfig = {"status": "off", "pin": 28}
-runtimeScheduler.addRuntime(light.BinaryLight(), binaryLightDefaultConfig)
+binaryLightDefaultConfig = {
+    "ID": "Right Headlight",
+    "status": "off",
+    "pin": 29
+}
+runtimeScheduler.addRuntime(light.BinaryLight(binaryLightDefaultConfig))
 
 runtimeScheduler.runtimeScan()
 
 print("Successful run")
-
-
-#data = {"name": "Bob", "age": 30}
-#json_string = ujson.dumps(data)
 
 
 
