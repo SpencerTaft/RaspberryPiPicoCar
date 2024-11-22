@@ -1,12 +1,18 @@
 import runnable #local runnable.py
 
+
 class RuntimeScheduler():
-    def __init__(self):
-        #todo convert to singleton
-        self.runnables = []
+    instance = None
+    runnables = []
+
+    #RuntimeScheduler is a singleton
+    def __new__(cls, *args, **kwargs):
+        if not cls.instance:
+            cls.instance = super(RuntimeScheduler, cls).__new__(cls, *args, **kwargs)
+        return cls.instance
     
     def addRuntime(self, runnable):
-        #ossibly return the index in the runtime list that this object is added as
+        #possibly return the index in the runtime list that this object is added as
         #possibly create a map for easy access to runtimes by key(key = runnable ID)
         self.runnables.append(runnable)
         
