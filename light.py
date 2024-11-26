@@ -15,63 +15,54 @@ class Light(runnable.Runnable):
     def setConfig(self, newConfig):
         raise NotImplementedError("Light Implementation Missing")
     
-    #todo could add timer logic here to be shared by both PWMLight and BinaryLight
-
-
-    #Comments below are for brainstorming necessary methods:
-    #lights can: turn on/off (state), dim (0-100%) using PWM, flashing (ramp up and down) using PWM
-        #dim and on/off can be combined into a single functionality.  However, the microcontroller has only 8 PWM channels
-    #needs an enum setting if it can support PWM or binary on off
-        #eg. PWMLight, SimpleLight
+    #todo add timer logic here to be shared by both PWMLight and BinaryLight
+        #PWMLight implements a sawtooth wave using timer logic
+        #BinaryLight implements a square wave using timer logic
 
 class PWMLight(Light):
     def __init__(self, defaultConfig):
-        self.config = defaultConfig #save config as an attribute for quick compares for new config without parsing JSON
+        self.config = defaultConfig #save config as an attribute for quick compares for new config without parsing JSON.  This may be removed in the future
         self.ID = defaultConfig['ID']
-        self.status = defaultConfig['status'] #on/off
+        self.status = defaultConfig['status'] #on/off, on means that the pin is on at maxLightPercent.  status must be on to enable flashing
         self.pin = defaultConfig['pin']
-        #todo more fields for ramp, etc.
-        pass #constructor
+        self.maxLightPercent = defaultConfig['maxLightPercent'] #max brightness that light can reach
+        self.flashingPeriod = defaultConfig['flashingPeriod'] #period in seconds.  A value of zero or a status of off disables flashing
     
     def runtime(self):
         print("PWM Light Runtime")
         return runnable.RuntimeExecutionStatus.SUCCESS
     
     def getID(self):
-        #this can return a string, or a tuple containing object type (overwrite by child class) and ID (eg. {light, frontLeftHeadlight})
-            #ID should match an entry in the database
-            #ID should be strings or tuples of strings, easy to support derived classes
         return ("PWMLight", ID)
     
     def setConfig(self, newConfig):
         if (self.config != newConfig):
-            newConfigData = ujson.loads(newConfig)
-            status = newConfigData['status'] #on/off
-            pin = newConfigData['pin'] #GPIO pin
+            self.config = newConfig
+            self.status = newConfig['status']
+            self.pin = newConfig['pin']
+            self.maxLightPercent = newConfig['maxLightPercent']
+            self.flashingPeriod = newConfig['flashingPeriod']
             pass
     
 class BinaryLight(Light):
     def __init__(self, defaultConfig):
-        self.config = defaultConfig #save config as an attribute for quick compares for new config without parsing JSON
+        self.config = defaultConfig #save config as an attribute for quick compares for new config without parsing JSON.  This may be removed in the future
         self.ID = defaultConfig['ID']
         self.status = defaultConfig['status'] #on/off
         self.pin = defaultConfig['pin']
-        #todo more fields for blink, etc.
-        pass #constructor
+        self.flashingPeriod = defaultConfig['flashingPeriod'] #period in seconds.  A value of zero or a status of off disables flashing
     
     def runtime(self):
         print("Binary Light Runtime")
         return runnable.RuntimeExecutionStatus.SUCCESS
     
     def getID(self):
-        #this can return a string, or a tuple containing object type (overwrite by child class) and ID (eg. {light, frontLeftHeadlight})
-            #ID should match an entry in the database
-            #ID should be strings or tuples of strings, easy to support derived classes
         return ("BinaryLight", ID)
     
     def setConfig(self, newConfig):
         if (self.config != newConfig):
-            newConfigData = ujson.loads(newConfig)
-            status = newConfigData['status'] #on/off
-            pin = newConfigData['pin'] #GPIO pin
+            self.config = newConfig
+            self.status = newConfig['status'] #on/off
+            self.pin = newConfig['pin'] #GPIO pin
+            self.flashingPeriod = newConfig['flashingPeriod']
             pass

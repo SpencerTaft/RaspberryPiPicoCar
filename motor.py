@@ -1,4 +1,4 @@
-#not implemented for V1
+#not implemented for first release
 class Motor(runnable.Runnable):
     def __init__(self):
         pass #constructor

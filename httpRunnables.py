@@ -14,7 +14,7 @@ class HTTPConnector(runnable.Runnable):
         return runnable.RuntimeExecutionStatus.SUCCESS
     
 class HTTPServer():
-    #This class runs on a separate CPU core, so it does not need to be a runnable
+    #This class runs on its own CPU core, so it does not need to be a runnable
     ssid = '*****'
     password = '*****'
     
