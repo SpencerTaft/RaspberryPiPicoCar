@@ -84,5 +84,3 @@ class HTTPServer():
         except KeyboardInterrupt:
             machine.reset()
     
-server = HTTPServer()
-    
