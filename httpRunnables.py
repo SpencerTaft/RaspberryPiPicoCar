@@ -25,6 +25,12 @@ class HTTPServer():
     
     def connect(self):
         #Connect to WLAN
+        with open('secret.txt','r') as file:
+            self.ssid = line.strip()
+            self.password = line.strip()
+        print('SSID: ' + ssid)
+        print('Pass:' + password)
+        
         wlan = network.WLAN(network.STA_IF)
         wlan.active(True)
         wlan.connect(self.ssid, self.password)
