@@ -17,7 +17,7 @@ class HTTPConnector(runnable.Runnable):
     def getID(self):
         return ("HTTPConnector", ID)
     
-    def setConfig(self, newConfig)
+    def setConfig(self, newConfig):
         if self.config != newConfig:
             self.config = newConfig
         #no config fields currently

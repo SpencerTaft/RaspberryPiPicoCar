@@ -1,4 +1,5 @@
 import runnable #local runnable.py
+import time
 
 
 class RuntimeScheduler():
@@ -23,5 +24,10 @@ class RuntimeScheduler():
             runStatus = runnableInstance.runtime()
             if (runStatus != runnable.RuntimeExecutionStatus.SUCCESS):
                 break; #temporary solution
-            
         print("runtime scan complete")
+        
+    def runtime(self):
+        while(True):
+            self.runtimeScan()
+            time.sleep(10)
+            
