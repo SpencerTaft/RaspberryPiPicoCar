@@ -20,6 +20,11 @@ class RuntimeScheduler():
     def runtimeScan(self):
         #runs a single scan of each runtime object added
         for runnableInstance in self.runnables:
+            if runnableInstance.getID() == ("PWMLight", "Left Headlight"):
+                print("hit the special condition!")
+            else:
+                print(runnableInstance.getID())       
+            
             #todo time the run using async core, then timeout.  Long term goal
             runStatus = runnableInstance.runtime()
             if (runStatus != runnable.RuntimeExecutionStatus.SUCCESS):

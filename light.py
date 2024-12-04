@@ -33,7 +33,7 @@ class PWMLight(Light):
         return runnable.RuntimeExecutionStatus.SUCCESS
     
     def getID(self):
-        return ("PWMLight", ID)
+        return ("PWMLight", self.ID)
     
     def setConfig(self, newConfig):
         if (self.config != newConfig):
@@ -57,7 +57,7 @@ class BinaryLight(Light):
         return runnable.RuntimeExecutionStatus.SUCCESS
     
     def getID(self):
-        return ("BinaryLight", ID)
+        return ("BinaryLight", self.ID)
     
     def setConfig(self, newConfig):
         if (self.config != newConfig):
