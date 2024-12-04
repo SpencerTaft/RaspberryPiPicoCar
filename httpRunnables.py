@@ -5,18 +5,26 @@ import machine
 import runnable #local runnable.py
 
 class HTTPConnector(runnable.Runnable):
-    def __init__(self):
-        pass #constructor
+    def __init__(self, defaultConfig):
+        self.config = defaultConfig
+        self.ID = defaultConfig['ID']
     
     def runtime(self):
         print("HTTP Connector Runtime")
         #todo check for new information from Async HTTP Server
         return runnable.RuntimeExecutionStatus.SUCCESS
     
+    def getID(self):
+        return ("HTTPConnector", ID)
+    
+    def setConfig(self, newConfig)
+        if self.config != newConfig:
+            self.config = newConfig
+        #no config fields currently
+    
+    
 class HTTPServer():
     #This class runs on its own CPU core, so it does not need to be a runnable
-    ssid = '*****'
-    password = '*****'
     
     def __init__(self):
         self.runtime();
@@ -25,15 +33,17 @@ class HTTPServer():
     
     def connect(self):
         #Connect to WLAN
+        fileContents = []
         with open('secret.txt','r') as file:
-            self.ssid = line.strip()
-            self.password = line.strip()
-        print('SSID: ' + ssid)
-        print('Pass:' + password)
+            for line in file:
+                print(line, end='')
+                fileContents.append(line.rstrip())
+        ssid = fileContents[0]
+        password = fileContents[1]
         
         wlan = network.WLAN(network.STA_IF)
         wlan.active(True)
-        wlan.connect(self.ssid, self.password)
+        wlan.connect(ssid, password)
         while wlan.isconnected() == False:
             print('Waiting for connection...')
             sleep(1)

@@ -1,4 +1,3 @@
 November 23rd:
-    -   switch to using a v1 branch, merging into main on stable releases etc.
     -   update http server to receive JSON
     -   database design
