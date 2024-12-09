@@ -6,7 +6,7 @@ import runnable #local runnable.py
 
 httpAccessSemaphore = 0
 
-def isAquireHTTPConfigLockSuccess():
+def isAcquireHTTPConfigLockSuccess():
     #shared function between runtime and HTTP server to grab a simulated mutex (aka semaphore with users == 1).  Returns true if successful
     global httpAccessSemaphore
     
@@ -40,7 +40,26 @@ def isReleaseHTTPConfigLockSuccess():
     global httpAccessSemaphore
     httpAccessSemaphore -= 1
     
+
+class HTTPConfig():
+    #Shared resource
+    def __init__(self):
+        self.isNewConfigAvailable = False
+        self.config = {}
     
+    def isNewConfigAvailable(self):
+        return self.isNewConfigAvailable
+
+    def getConfig(self):
+        if self.isNewConfigAvailable:
+            self.isNewConfigAvailable = False
+        return self.config
+    
+    def setConfig(self, newConfig):
+        self.isNewConfigAvailable = True
+        self.config = newConfig
+        
+httpConfig = HTTPConfig() #temporary instance, in future make this a singleton
 
 class HTTPConnector(runnable.Runnable):
     def __init__(self, defaultConfig):
@@ -49,31 +68,16 @@ class HTTPConnector(runnable.Runnable):
     
     def runtime(self):
         print("HTTP Connector Runtime")
-        #global httpAccessSemaphore
-        if isAquireHTTPConfigLockSuccess():
+        global httpConfig
+
+        if isAcquireHTTPConfigLockSuccess():
             print("HTTPConnector acquired lock")
-            
+            if httpConfig.isNewConfigAvailable():
+                newHTTPConfig = httpConfig.getConfig()
+                #todo propagate newHTTPConfig to scheduler
             isReleaseHTTPConfigLockSuccess()
         else:
             print("HTTPConnector could not acquire lock")
-        
-        #todo check for new information from Async HTTP Server
-        #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.
-        #if (httpAccessSemaphore > 0):
-        #    print("HTTP resource is occupied")
-       # else: 
-          #  httpAccessSemaphore += 1
-         #   time.sleep(1) #small delay to ensure no race condition
-        #    if (httpAccessSemaphore == 1):
-                #access code
-            #elif (httpAccessSemaphore > 1):
-           #     httpAccessSemaphore -= 1 #reset this attempt
-          #  elif (httpAccessSemaphore == 0):
-         #       httpAccessSemaphore = 1
-        #    else:
-                #unspecified error
-                
-        #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         
         return runnable.RuntimeExecutionStatus.SUCCESS
     
@@ -85,10 +89,8 @@ class HTTPConnector(runnable.Runnable):
             self.config = newConfig
         #no config fields currently
     
-    
 class HTTPServer():
     #This class runs on its own CPU core, so it does not need to be a runnable
-    
     def __init__(self):
         self.runtime();
         pass
