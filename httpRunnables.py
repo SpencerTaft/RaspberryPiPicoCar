@@ -1,8 +1,46 @@
 import network
 import socket
-from time import sleep
+import time
 import machine
 import runnable #local runnable.py
+
+httpAccessSemaphore = 0
+
+def isAquireHTTPConfigLockSuccess():
+    #shared function between runtime and HTTP server to grab a simulated mutex (aka semaphore with users == 1).  Returns true if successful
+    global httpAccessSemaphore
+    
+    if (httpAccessSemaphore > 0):
+        #httpAccessSemaphore is already occupied
+        print("HTTP resource is occupied")
+        return False
+    else:
+        #increment the semaphore, wait 1ms, and then check for race conditions
+        httpAccessSemaphore += 1
+        time.sleep(1) #small delay to ensure no race condition
+        
+        if (httpAccessSemaphore == 1):
+            #lock success
+            return True
+        elif (httpAccessSemaphore == 2):
+            #since the lock attempt, another process incremented the semaphore.  reduce lock by one
+            httpAccessSemaphore -= 1 #reset this attempt
+            return False
+        elif (httpAccessSemaphore == 0):
+            #since the lock attempt, another process released the semaphore.  Reset the semaphore
+            httpAccessSemaphore = 1
+            return True
+        else:
+            #semaphore has overrun range
+            print("httpAccessSemaphore has overrun bounds")
+            return False
+
+def isReleaseHTTPConfigLockSuccess():
+    #shared function between runtime and HTTP server to release a simulated mutex (aka semaphore with users == 1)
+    global httpAccessSemaphore
+    httpAccessSemaphore -= 1
+    
+    
 
 class HTTPConnector(runnable.Runnable):
     def __init__(self, defaultConfig):
@@ -11,7 +49,32 @@ class HTTPConnector(runnable.Runnable):
     
     def runtime(self):
         print("HTTP Connector Runtime")
+        #global httpAccessSemaphore
+        if isAquireHTTPConfigLockSuccess():
+            print("HTTPConnector acquired lock")
+            
+            isReleaseHTTPConfigLockSuccess()
+        else:
+            print("HTTPConnector could not acquire lock")
+        
         #todo check for new information from Async HTTP Server
+        #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.
+        #if (httpAccessSemaphore > 0):
+        #    print("HTTP resource is occupied")
+       # else: 
+          #  httpAccessSemaphore += 1
+         #   time.sleep(1) #small delay to ensure no race condition
+        #    if (httpAccessSemaphore == 1):
+                #access code
+            #elif (httpAccessSemaphore > 1):
+           #     httpAccessSemaphore -= 1 #reset this attempt
+          #  elif (httpAccessSemaphore == 0):
+         #       httpAccessSemaphore = 1
+        #    else:
+                #unspecified error
+                
+        #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        
         return runnable.RuntimeExecutionStatus.SUCCESS
     
     def getID(self):
@@ -46,7 +109,7 @@ class HTTPServer():
         wlan.connect(ssid, password)
         while wlan.isconnected() == False:
             print('Waiting for connection...')
-            sleep(1)
+            time.sleep(1)
         ip = wlan.ifconfig()[0] #this is the ip address of the raspberry pi pico
         print(f'Connected on {ip}')
         return ip

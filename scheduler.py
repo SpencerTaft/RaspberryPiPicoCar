@@ -1,7 +1,6 @@
 import runnable #local runnable.py
 import time
 
-
 class RuntimeScheduler():
     instance = None
     runnables = []
