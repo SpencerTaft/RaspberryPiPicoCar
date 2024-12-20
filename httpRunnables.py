@@ -99,11 +99,11 @@ class HTTPConnector(runnable.Runnable):
         return self.receivedConfig
 
     
-class HTTPServer():
+class HTTPServer():    
     #This class runs on its own CPU core, so it does not need to be a runnable
     def __init__(self):
+        self.state = 'OFF'
         self.runtime();
-        pass
     #async HTTP server that receives GET and POST requests from HTTP clients, and provides data or data requests to HTTP connector
     
     def connect(self):
@@ -135,16 +135,20 @@ class HTTPServer():
         return connection
     
     def webpage(self):
-    #Template HTML
+        #Template HTML
         html = f"""
                 <!DOCTYPE html>
                 <html>
-                <p>TEST STATEMENT 1</p>
-                <p>TEST STATEMENT 2</p>
+                <form action="./lighton">
+                <input type="submit" value="Light on" />
+                </form>
+                <form action="./lightoff">
+                <input type="submit" value="Light off" />
+                </form>
                 </body>
                 </html>
                 """
-        return str(html)
+        return str(html) #<p>LED is {self.state}</p>
 
     def serve(self, connection):
         #Start a web server
@@ -157,15 +161,38 @@ class HTTPServer():
             except IndexError:
                 pass
             if request == '/lighton?':
-                pico_led.on()
-                state = 'ON'
+                if self.state == 'OFF':
+                    self.state = 'ON'
+                    self.updateConfig()
             elif request =='/lightoff?':
-                pico_led.off()
-                state = 'OFF'
+                if self.state == 'ON':
+                    self.state = 'OFF'
+                    self.updateConfig()
             html = self.webpage()
             client.send(html)
             client.close()
     
+    def updateConfig(self):
+        global httpConfig
+
+        updatedConfigSuccess = False
+        while (not updatedConfigSuccess):
+            if not isAcquireHTTPConfigLockSuccess():
+                newConfig = {}
+
+                if self.state == 'ON':
+                    print ("update config switching to ON state")
+                    newConfig = {"ID": "headlights", "status": "on", "pin": 29}
+                else:
+                    print ("update config switching to ON state")
+                    newConfig = {"ID": "headlights", "status": "off", "pin": 29}
+
+                httpConfig.setConfig(newConfig)
+                updatedConfigSuccess = True
+            else:
+                print("Failed to acquire lock after receiving new HTTP config")
+                time.sleep(1)
+
     
     def runtime(self):
         try:

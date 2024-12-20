@@ -6,7 +6,7 @@ import _thread
 
 runtimeScheduler = scheduler.RuntimeScheduler()
 
-lightDefaultConfig = {"ID": "headlights", "status": "off", "pin": 29, "flashingPeriod": 3}
+lightDefaultConfig = {"ID": "headlights", "status": "off", "pin": 29}
 runtimeScheduler.addRuntime(light.BinaryLight(lightDefaultConfig))
 
 runtimeScheduler.addRuntime(httpRunnables.HTTPConnector({"ID": "connector"}))
@@ -14,11 +14,10 @@ runtimeScheduler.addRuntime(httpRunnables.HTTPConnector({"ID": "connector"}))
 #Run the scan runtimes in the second core.  This is because the http server encounters
 #TinyUSB compatibility issues (micropython bug, which may be fixed in a future micropython release)
 #_thread.start_new_thread(runtimeScheduler.runtime, ())
-runtimeScheduler.runtime()
+#runtimeScheduler.runtime()
 
 #Run the http server on the primary core
-#server = httpRunnables.HTTPServer()
-#server.runtime()
+server = httpRunnables.HTTPServer()
 
 print("End of run")
 
