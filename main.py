@@ -1,4 +1,3 @@
-#import runnable #local runnable.py
 import light #local light.py
 import scheduler #local scheduler.py
 import httpRunnables #local httpRunnables.py
@@ -11,21 +10,11 @@ runtimeScheduler.addRuntime(light.BinaryLight(lightDefaultConfig))
 
 runtimeScheduler.addRuntime(httpRunnables.HTTPConnector({"ID": "connector"}))
 
-#Run the scan runtimes in the second core.  This is because the http server encounters
-#TinyUSB compatibility issues (micropython bug, which may be fixed in a future micropython release)
-#_thread.start_new_thread(runtimeScheduler.runtime, ())
-#runtimeScheduler.runtime()
+#Due to Micropython limitations on the Pico Pi W, multithreading does not work with the implemented HTTP server.
+#Either the runtimeScheduler runs, or the server runs.  This project will be ported to C++, where multithreading
+#will work as intended
 
-#Run the http server on the primary core
+#_thread.start_new_thread(runtimeScheduler.runtime, ())
 server = httpRunnables.HTTPServer()
 
-print("End of run")
-
-
-
-
-
-
-
-
-
+print("Program terminated")

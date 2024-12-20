@@ -1,10 +1,9 @@
 import runnable
 
-#base light class
 class Light(runnable.Runnable):
     
     def __init__(self):
-        pass #constructor
+        pass
     
     def runtime(self):
         raise NotImplementedError("Light Implementation Missing")
@@ -17,7 +16,7 @@ class Light(runnable.Runnable):
 
 class BinaryLight(Light):
     def __init__(self, defaultConfig):
-        self.config = defaultConfig #save config as an attribute for quick compares for new config without parsing JSON.  This may be removed in the future
+        self.config = defaultConfig #save config as an attribute for quick compares for new config without parsing dictionary contents
         self.ID = defaultConfig['ID']
         self.status = defaultConfig['status'] #on/off
         self.pin = defaultConfig['pin']

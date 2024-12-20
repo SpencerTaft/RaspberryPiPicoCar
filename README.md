@@ -1,2 +1,2 @@
-# RaspberryPiPicoCar
-This project will be an HTTP Server running within a model car in order to remotely control lights, motors, and more
+# RaspberryPiPicoCar Python Prototype
+This project implements a HTTP server for receiving model car light configuration, and implements a runtime scheduler for light instances.  Due to a limitation of micropython, multithreading is not possible while running a HTTP server, so only one of the two functionalities can run in project at a time.  However, both ends are tested, and will be combined in a C++ full implementation of this project.

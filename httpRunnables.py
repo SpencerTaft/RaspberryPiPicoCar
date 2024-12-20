@@ -12,8 +12,7 @@ def isAcquireHTTPConfigLockSuccess():
     
     if (httpAccessSemaphore > 0):
         #httpAccessSemaphore is already occupied
-        print("HTTP resource is occupied")
-        return False
+        return False 
     else:
         #increment the semaphore, wait 1ms, and then check for race conditions
         httpAccessSemaphore += 1
@@ -59,7 +58,7 @@ class HTTPConfig():
         self.isNewConfigAvailable = True
         self.config = newConfig
         
-httpConfig = HTTPConfig() #temporary instance, in future make this a singleton
+httpConfig = HTTPConfig() #shared instance between HTTPConnector and HTTPServer
 
 class HTTPConnector(runnable.Runnable):
     def __init__(self, defaultConfig):
@@ -98,13 +97,11 @@ class HTTPConnector(runnable.Runnable):
         self.isNewConfigAvailable = False
         return self.receivedConfig
 
-    
+#async HTTP server that receives requests from HTTP clients, and provides config to HTTP connector
 class HTTPServer():    
-    #This class runs on its own CPU core, so it does not need to be a runnable
     def __init__(self):
         self.state = 'OFF'
         self.runtime();
-    #async HTTP server that receives GET and POST requests from HTTP clients, and provides data or data requests to HTTP connector
     
     def connect(self):
         #Connect to WLAN
@@ -122,7 +119,7 @@ class HTTPServer():
         while wlan.isconnected() == False:
             print('Waiting for connection...')
             time.sleep(1)
-        ip = wlan.ifconfig()[0] #this is the ip address of the raspberry pi pico
+        ip = wlan.ifconfig()[0] #this is the ip address of the raspberry pi pico w
         print(f'Connected on {ip}')
         return ip
     
@@ -148,7 +145,7 @@ class HTTPServer():
                 </body>
                 </html>
                 """
-        return str(html) #<p>LED is {self.state}</p>
+        return str(html)
 
     def serve(self, connection):
         #Start a web server

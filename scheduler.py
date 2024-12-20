@@ -1,6 +1,5 @@
 import runnable #local runnable.py
 import httpRunnables #local httpRunnables.py
-import time
 
 class RuntimeScheduler():
     instance = None
@@ -22,15 +21,12 @@ class RuntimeScheduler():
         #runs a single scan of each runtime object added
         for runnableInstance in self.runnables:
             if runnableInstance.getID() == ("BinaryLight", "headlights"):
-                print("found binary light instance")
                 if isNewLightConfig:
                     runnableInstance.setConfig(self, receivedLightConfig)
             else:
                 print(runnableInstance.getID())
 
             if runnableInstance.getID() == ("HTTPConnector", "connector"):
-                print("found httpConnector instance")
-
                 if httpRunnables.HTTPConnector.getIsNewConfigAvailable(runnableInstance):
                     receivedLightConfig = httpRunnables.HTTPConnector.getReceivedConfig(runnableInstance)
                     isNewLightConfig = True
@@ -42,7 +38,7 @@ class RuntimeScheduler():
         
     def runtime(self):
         self.runtimeScan()
-#        while(True):
-#            self.runtimeScan()
-#            time.sleep(100)
+        while(True):
+            self.runtimeScan()
+            time.sleep(10)
             
