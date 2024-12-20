@@ -47,7 +47,7 @@ class HTTPConfig():
         self.isNewConfigAvailable = False
         self.config = {}
     
-    def isNewConfigAvailable(self):
+    def getIsNewConfigAvailable(self):
         return self.isNewConfigAvailable
 
     def getConfig(self):
@@ -65,6 +65,8 @@ class HTTPConnector(runnable.Runnable):
     def __init__(self, defaultConfig):
         self.config = defaultConfig
         self.ID = defaultConfig['ID']
+        self.isNewConfigAvailable = False
+        self.receivedConfig = {}
     
     def runtime(self):
         print("HTTP Connector Runtime")
@@ -72,9 +74,9 @@ class HTTPConnector(runnable.Runnable):
 
         if isAcquireHTTPConfigLockSuccess():
             print("HTTPConnector acquired lock")
-            if httpConfig.isNewConfigAvailable():
-                newHTTPConfig = httpConfig.getConfig()
-                #todo propagate newHTTPConfig to scheduler
+            if httpConfig.getIsNewConfigAvailable():
+                self.receivedConfig = httpConfig.getConfig()
+                self.isNewConfigAvailable = True
             isReleaseHTTPConfigLockSuccess()
         else:
             print("HTTPConnector could not acquire lock")
@@ -88,6 +90,14 @@ class HTTPConnector(runnable.Runnable):
         if self.config != newConfig:
             self.config = newConfig
         #no config fields currently
+
+    def getIsNewConfigAvailable(self):
+        return self.isNewConfigAvailable
+    
+    def getReceivedConfig(self):
+        self.isNewConfigAvailable = False
+        return self.receivedConfig
+
     
 class HTTPServer():
     #This class runs on its own CPU core, so it does not need to be a runnable

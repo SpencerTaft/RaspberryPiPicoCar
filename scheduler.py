@@ -1,4 +1,5 @@
 import runnable #local runnable.py
+import httpRunnables #local httpRunnables.py
 import time
 
 class RuntimeScheduler():
@@ -12,26 +13,36 @@ class RuntimeScheduler():
         return cls.instance
     
     def addRuntime(self, runnable):
-        #possibly return the index in the runtime list that this object is added as
-        #possibly create a map for easy access to runtimes by key(key = runnable ID)
         self.runnables.append(runnable)
         
     def runtimeScan(self):
+        receivedLightConfig = {}
+        isNewLightConfig = False
+
         #runs a single scan of each runtime object added
         for runnableInstance in self.runnables:
-            if runnableInstance.getID() == ("PWMLight", "Left Headlight"):
-                print("hit the special condition!")
+            if runnableInstance.getID() == ("BinaryLight", "headlights"):
+                print("found binary light instance")
+                if isNewLightConfig:
+                    runnableInstance.setConfig(self, receivedLightConfig)
             else:
-                print(runnableInstance.getID())       
+                print(runnableInstance.getID())
+
+            if runnableInstance.getID() == ("HTTPConnector", "connector"):
+                print("found httpConnector instance")
+
+                if httpRunnables.HTTPConnector.getIsNewConfigAvailable(runnableInstance):
+                    receivedLightConfig = httpRunnables.HTTPConnector.getReceivedConfig(runnableInstance)
+                    isNewLightConfig = True
             
-            #todo time the run using async core, then timeout.  Long term goal
             runStatus = runnableInstance.runtime()
             if (runStatus != runnable.RuntimeExecutionStatus.SUCCESS):
-                break; #temporary solution
+                break;
         print("runtime scan complete")
         
     def runtime(self):
-        while(True):
-            self.runtimeScan()
-            time.sleep(10)
+        self.runtimeScan()
+#        while(True):
+#            self.runtimeScan()
+#            time.sleep(100)
             
